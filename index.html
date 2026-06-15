@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Birthday Card Studio</title>
+    
+    <!-- Premium Elegant Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --accent-gold: #d4af37;
+            --accent-pink: #f43f5e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        /* Top Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin: 0;
+            background: linear-gradient(to right, #ffffff, #f43f5e, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .page-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 5px 0 0 0;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        /* App Layout Grid */
+        .workspace {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 50px;
+            max-width: 1150px;
+            width: 100%;
+            align-items: start;
+        }
+
+        /* LEFT PANEL: Control Center */
+        .designer-panel {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 40px 30px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 40px;
+        }
+
+        .designer-panel h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+            font-weight: 600;
+        }
+
+        .designer-panel p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 14px 16px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-pink);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 0 4px rgba(244, 63, 94, 0.15);
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent-pink) 0%, #e11d48 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(244, 63, 94, 0.25);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(244, 63, 94, 0.4);
+        }
+
+        /* RIGHT PANEL: Dynamic Card Stack Container */
+        .card-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            width: 100%;
+            max-width: 650px;
+            justify-self: center;
+        }
+
+        /* High-End Paper Mimic Card Object */
+        .birthday-card {
+            width: 100%;
+            height: 420px;
+            background: #fdfbf7; /* Textured elegant off-white cream */
+            border-radius: 20px;
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.4), 
+                inset 0 0 40px rgba(212, 175, 55, 0.03);
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.7);
+            animation: cardSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* Spine Fold Multi-shadow Effect */
+        .spine-fold {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            width: 40px;
+            height: 100%;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, 
+                rgba(0,0,0,0.02) 0%, 
+                rgba(0,0,0,0.08) 40%, 
+                rgba(0,0,0,0.18) 48%, 
+                rgba(0,0,0,0.0) 50%, 
+                rgba(0,0,0,0.18) 52%, 
+                rgba(0,0,0,0.08) 60%, 
+                rgba(0,0,0,0.02) 100%);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .card-page {
+            flex: 1;
+            padding: 45px 35px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Elegant Frame Trim inside each page */
+        .card-frame {
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            border: 1px solid rgba(184, 134, 11, 0.15);
+            pointer-events: none;
+            border-radius: 10px;
+        }
+
+        .card-left .card-frame {
+            margin-right: 10px;
+        }
+        .card-right .card-frame {
+            margin-left: 10px;
+        }
+
+        .card-left {
+            border-right: 1px solid rgba(0,0,0,0.04);
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(to left, rgba(0,0,0,0.01), transparent);
+        }
+
+        .card-right {
+            justify-content: flex-start;
+            align-items: center;
+            background: linear-gradient(to right, rgba(0,0,0,0.01), transparent);
+            padding-top: 50px;
+        }
+
+        .card-badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #8a94a6;
+            font-weight: 500;
+        }
+
+        /* Stylized framing circle for the graphic element */
+        .illustration-container {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 
+                0 10px 25px rgba(0,0,0,0.05),
+                inset 0 0 0 1px rgba(184, 134, 11, 0.1);
+            position: relative;
+        }
+
+        .illustration-container::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            bottom: -6px;
+            left: -6px;
+            right: -6px;
+            border: 1px dashed rgba(184, 134, 11, 0.25);
+            border-radius: 50%;
+        }
+
+        .card-illustration {
+            font-size: 3rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        /* High-end Signature Styling for Typography */
+        .card-salutation {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #1e293b;
+            margin: 0 0 25px 0;
+            font-weight: 600;
+            width: 100%;
+            text-align: center;
+        }
+
+        .handwritten-message {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: #334155;
+            text-align: center;
+            margin: 0;
+            max-width: 250px;
+        }
+
+        .placeholder-text {
+            color: var(--text-muted);
+            text-align: center;
+            font-style: italic;
+            font-weight: 300;
+            margin-top: 100px;
+        }
+
+        /* Entrance Animation for New Cards */
+        @keyframes cardSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-40px) scale(0.96);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Responsive Layout Adjustments */
+        @media (max-width: 950px) {
+            .workspace {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .designer-panel {
+                max-width: 100%;
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Fun, Premium Header Title at Top of Page -->
+<div class="page-header">
+    <h2>The Roasting Lounge</h2>
+    <p>Bespoke Birthday Cards & Digital Poetry</p>
+</div>
+
+<div class="workspace">
+    <!-- Left Panel: Control Interface -->
+    <div class="designer-panel">
+        <h3>Card Configurator</h3>
+        <p>Design a tailored card. Each submission prints a brand new edition below.</p>
+        
+        <div class="input-group">
+            <label for="name">Recipient Name</label>
+            <input type="text" id="name" placeholder="e.g., David">
+        </div>
+        
+        <div class="input-group">
+            <label for="age">Age</label>
+            <input type="number" id="age" placeholder="e.g., 31">
+        </div>
+        
+        <div class="input-group">
+            <label for="hobby">Passionate Hobby</label>
+            <input type="text" id="hobby" placeholder="e.g., Cooking">
+        </div>
+        
+        <button class="btn-generate" onclick="generatePremiumCard()">Compose Message</button>
+    </div>
+
+    <!-- Right Panel: Stack Area where elements accumulate -->
+    <div class="card-stack" id="cardStack">
+        <div class="placeholder-text" id="placeholder">Your tailored cards will stack here. Give it a run!</div>
+    </div>
+</div>
+
+<script>
+    function generatePremiumCard() {
+        const name = document.getElementById('name').value.trim();
+        const age = document.getElementById('age').value.trim();
+        const hobby = document.getElementById('hobby').value.trim();
+        const cardStack = document.getElementById('cardStack');
+        const placeholder = document.getElementById('placeholder');
+
+        if (!name || !age || !hobby) {
+            alert("Please provide a name, age, and hobby to compile a new layout.");
+            return;
+        }
+
+        // Segment text out to apply varying custom weights/hierarchy elegantly
+        const bodies = [
+            `You are ${age} today! At this rate, your candles are costing more than the pastry. Put down the ${hobby} gear and blow them out before the smoke alarms ruin the mood.`,
+            `Happy ${age} architectural cycles. You've reached an epoch where your back goes out more than you do. Lean hard into your ${hobby} hobby; it's the only safe exercise left.`,
+            `Congratulations on turning ${age}. They claim absolute wisdom arriving with maturity, but in your setup, it appears ${hobby} took up all the remaining hard drive space instead.`
+        ];
+
+        const emojis = ["🍷", "🥃", "🎈", "🍰", "🎉", "✨"];
+        
+        const selectedBody = bodies[Math.floor(Math.random() * bodies.length)];
+        const selectedEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+        // Hide placeholder text on first card delivery
+        if (placeholder) {
+            placeholder.remove();
+        }
+
+        // Generate brand new card DOM node element structure
+        const newCard = document.createElement('div');
+        newCard.className = 'birthday-card';
+        newCard.innerHTML = `
+            <div class="spine-fold"></div>
+            
+            <!-- Left Inside Flap -->
+            <div class="card-page card-left">
+                <div class="card-frame"></div>
+                <span class="card-badge">Bespoke Edition</span>
+                <div class="illustration-container">
+                    <div class="card-illustration">${selectedEmoji}</div>
+                </div>
+                <span class="card-badge" style="letter-spacing:1px; color:#a4b0be; font-size:0.6rem;">© Studio 2026</span>
+            </div>
+            
+            <!-- Right Inside Flap (Content Layout Modified) -->
+            <div class="card-page card-right">
+                <div class="card-frame"></div>
+                <div class="card-salutation">Dearest ${name},</div>
+                <p class="handwritten-message">${selectedBody}</p>
+            </div>
+        `;
+
+        // Prepend adds the element directly to the top of the stack
+        cardStack.insertBefore(newCard, cardStack.firstChild);
+    }
+</script>
+
+</body>
+</html>
